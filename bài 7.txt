@@ -1,0 +1,38 @@
+[class.right-margin]="!islast"
+>> thêm class "right-margin" vào thành phần ko phải là cuối cùng
+----------------------------------- Bài 7 -----------------------------------
+@Component ({
+	selector: "tendegoi-Component",
+	template:`
+		<div [style]={backgroundColor:tenbien, width:tenbien2 + '%',}>
+		</div>
+	`
+})
+export class TenClass {
+	@Input() tenbien = giá trị; 
+	@Input() tenbien2 = 0; 
+}
+>>> @Input() Chuyền nhận giá trị vào trong biến từ bên ngoài
+vào trang có gọi selector >> "tendegoi-Component"
+<div [tenbien2]=70>
+</div>
+
+
+constructor vòng đời của Component..................
+
+	export class TenClass implements OnInit, OnChanges  {
+		@Input() tenbien = giá trị; 
+		@Input() tenbien2 = 0; 
+	}
+	constructor (){
+	 ghi nhận khi được khởi tạo của chính Component
+	}
+	ngOnInit (){
+		khi thành phần cha khởi tạo và thay đổi lại giá trị bên trong Component
+		thì ghi nhận 1 lần
+	}
+	ngOnChanges(changes:SimpleChanges){
+	 ghi nhận thay đổi liên tục và chạy trước ngOnInit 
+	}
+	rong trường hợp bạn không thích dùng ngOnChanges, chúng ta có thể sử dụng getter/setter để làm điều này.
+----------------------------------- Bài 8 -----------------------------------

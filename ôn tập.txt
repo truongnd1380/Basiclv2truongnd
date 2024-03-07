@@ -1,0 +1,422 @@
+Just go to tsconfig.json and set
+
+"compilerOptions": {
+    "strictPropertyInitialization": false,
+    ...
+}
+
+----------------------bài 2 ----------------------
+tạo movies.component.ts..................
+thêm <app-movies></app-movies> vào app.component.html để sử dụng
+
+tạo movies.ts trong thư mục models
+tạo class dùng chung tên Movie với các biến và kiểu của chúng
+
+trong movies.component.ts ..................
+import Movie của movies.ts để sử dụng
+khởi tạo biến tên movie với kiểu Movie add dữ liệu vào cho nó
+trong class MovieComponet có khai báo implements OnInit để sử dụng được hàm ngOnInit
+
+trong movies.component.html..................
+add dữ liệu vào html để hiển thị 
+
+----------------------bài 3 ----------------------
+Data binding 1 chiều và 2 chiều cú pháp [ngModel] và [(ngModel)]
+để dùng dc thì trong app.module.ts phải import: FormsModule
+
+----------------------bài 4 ----------------------
+Tạo danh sách list sử dụng ngFor directive 
+tạo 1 dữ liệu giả để sử dụng trong bài học fake-movies.ts
+trong fake-movies.ts..................
+import kiểu dữ liệu Movie của movies.ts để sử dụng
+trong export tạo biến fakeMovies với kiểu dữ liệu mảng Movie[]
+gán dữ liệu vào mảng Movie[]
+export var fakeMovies: Movie[] = [
+	{
+		id:1,
+		name: "tên phim",
+		releaseYear:1996
+	},
+	{...........}
+]
+
+trong movies.component.ts..................
+import mảng fakeMovies từ fake-movies.ts để sử dụng
+tạo biến movies để gán mảng fakeMovies vào
+trong movies.component.html
+tạo 1 <ol> list để tryền list dữ liệu từ mảng movies sử dụng ngFor directive
+<li *ngFor="let tenbatky of movies">
+	{{tenbatky.name}} - {{tenbatky.releaseYear}}
+</li>
+
+----------------------bài 5 ----------------------
+sự kiện-event binding
+nhận tương tác từ người dùng để chạy hàm dưới component ở ví dụ này là click
+
+trong movies.component.ts..................
+tạo biến với kiểu Movie. 
+selectedMovie: Movie; 
+
+tạo hàm onSelect kiểu void có biến movie kiểu Movie bên trong hàm ta gán biến selectedMovie mới tạo bằng giá trị của biến movie
+onSelect(movie:Movie): void {
+	this.selectedMovie = movie
+}
+
+trong movies.component.html..................
+ta thông qua hàm click để chạy hàm onSelect() với giá trị dc truyền vào là biến let của *ngFor "lấy thành phần tương ứng từ trong mảng dc tách ra"
+(click)="onSelect(tenbatky)"
+đến đây mục đích bắt sựu kiện người dùng sau đó chạy hàm lấy thông tin dữ liệu truyền lại vào biến selectedMovie đã hoàn thành nhưng chưa hiển thị về mặt thị giác
+ta thêm 1 hành động kiểu data binding 1 chiều với điều kiện "tenbatky ===selectedMovie" để gán class "selected" vào 
+[class.selected]="tenbatky === selectedMovie"
+
+----------------------bài 6 ----------------------
+ngIf directive
+bắt điều kiện với hàm ngIf hiển thị nội dung chỉ định
+*ngIf="selectedMovie"
+
+----------------------bài 7 ----------------------
+Input decorator để truyền dữ liệu giữa các Component
+tạo component mới moviedetail.component
+
+trong moviedetail.component.ts..................
+thêm khai báo sử dụng Input trong import @angular/core
+import { Component, OnInit, Input} from "@angular/core";
+import kiểu Movie trong models/movies để sử dụng
+
+trong export class MovieDetailComponet khai báo bến kiểu Movie với @Input() "để cho biến dc tạo chở thành 1 biến Input nhận dc dữ liệu từ component khác".
+@Input movie: Movie
+
+trong moviedetail.component.html bắt sự kiện với biến Input movie
+*ngIf="movie"
+
+trong movies.component.htm..................
+add selector <app-movie-detail></app-movie-detail>  sau đó gán biến Input có trong moviedetail.component.ts bằng với biến selectedMovie trong movies.component.ts
+<app-movie-detail [movie]="selectedMovie"> </app-movie-detail>
+ 
+trong bài này lưu ý:..................
+khai báo trong component @Input biến: kiểu dữ liệu
+thì biến này có thể nhận dữ liệu từ component bên ngoài gọi nó
+----------------------bài 8 ----------------------
+sử dụng service lấy dữ liệu hiển thị
+
+có 3 kiểu lấy dữ liệu:
+local storage >> dữ liệu lưu trong file, nội bộ
+mock data source >> dữ liệu giả tự nghĩ ra
+web service >> nhận dữ liệu từ server
+
+tạo movie service movie.service.ts..................
+import { Injectable } from "@angular/core";
+@Injectable() trích xuất dữ liệu. các component có thể vào lấy dữ liệu
+bắt đầu add các dữ liệu sẽ dùng
+import { fakeMovies } from "./fake-movies";
+import { Movie } from "./models/movie";
+
+tạo hàm getMovies() mục đích return về fake-movies "lấy giữ liệu từ trong nội bộ"
+getMovies():Movie[]{
+	return fake-movies;
+}
+
+trong add.module.ts..................
+tại providers
+khai báo MovieService
+ providers: [
+    MovieService
+  ],
+
+movies.component.ts..................
+ko sử dụng cách lấy giữ liệu trực tiếp từ file nữa mà sử hàm gọi trong service
+// import { fakeMovies } from "../../fake-movies";
+// movies = fakeMovies;
+
+import MovieSevice để sử dụng
+khởi tạo biến kiểu Movie  
+movies: Movie[]
+trong constructor tạo movieService kiểu private "ngay khi component dc khởi tạo thì movieService cũng dc khởi tạo theo"
+constructor(private movieService: MovieSevice){}
+
+tạo hàm để gán cho biến movies
+getMoviesFromService ():void {
+	this.movies = this.movieService.getMovies();
+}
+
+chạy hàm getMoviesFromService bên trong movieService đảm bảo mọi thứ chạy xong mới chạy hàm này
+ngOnInit (){
+	this.getMoviesFromService();
+}
+
+trong bài này lưu ý:..................
+tạo ra 1 service để tạo hàm lấy dữ liệu
+trong component gọi hàm bên trong service để nhận dữ liệu
+----------------------bài 9 ----------------------
+xử lý bất đồng bộ
+sử dụng rxjs và Observable
+
+trong movie.service.ts..................
+Observable là 1 object bị theo dõi thay đổi để cập nhật lại
+Observable<Movie[]> "mảng Movie đang bị theo dõi sựu thay đổi"
+getMovies(): Observable<Movie[]> {}
+
+of là hàm bất đồng bộ chỉ thực thi khi dc gọi và nhận kết quả
+getMovies(): Observable<Movie[]> {
+	return of(fakeMovies);
+}
+trong movies.component.ts..................
+chỉnh sửa lại 
+getMoviesFromService():void {
+    this.movieService.getMovies().subscribe(
+      (updatedMovies) => {
+        this.movies = updatedMovies;
+      }
+    )
+  }
+trong movieService "movieService đã dc gán bằng với class MovieService trong movie.service.ts" gọi hàm getMovies() sau đó theo dõi thay đổi bằng hàm subscribe()
+
+hàm subscribe() là 1 arrow function (param1,param2,...) => {}
+	(updatedMovies) => {
+	....
+	}
+
+trong bài này lưu ý:..................
+việc sử lý bất đồng bộ ưu thế là trong khi hàm sử lý dữ liệu nặng thì các tác vụ khác sẽ ko bị dừng lại đợi mà vẫn tiếp tục chạy
+
+----------------------bài 10 ----------------------
+Service gọi service
+
+tạo messages.service.ts..................
+tạo mảng trống với kiểu string
+messages: string[] = [];
+tạo hàm add dữ liệu vào mảng messages
+sử dụng .push() để thêm dữ liệu vào mảng
+tạo hàng xóa dữ liệu trong mảng messages
+messages: string[] = [];
+  add(messages:string){
+    this.messages.push(messages);
+  }
+  deleteAllMessages(){
+    this.messages = [];
+  }
+
+trong movie.service.ts..................
+import { MessagesService } from "./messages.service";
+gọi hàm bên trong messages.service.ts
+ getMovies(): Observable<Movie[]> {
+ this.messageService.add(`${new Date().toLocaleString()}. Get movie list`);
+ }
+constructor(public messagesService: MessagesService){
+}
+
+bước hiển thị..................
+tạo messages.component
+trong messages.component.ts ..................
+import { MessagesService } from "../messages.service";
+constructor(public messageService: MessagesService){
+ }
+trong messages.component.html ..................
+ngIf để kiểm tra xem messages có dữ liệu hay ko nếu có mới hiển thị dữ liệu
+<div *ngIf="messageService.messages.length" style="text-align:
+left;">
+  <h4>
+    Messages
+  </h4>
+  <button (click)="messageService.deleteAllMessages()">
+    Delete all messages
+  </button>
+  <div *ngFor="let message of messageService.messages">
+    {{message}}
+  </div>
+
+</div>
+trong app.component.html..................
+add selector <app-messages></app-messages> để sử dụng
+
+----------------------bài 11 ----------------------
+Làm việc với routes và RouterOutlet 
+tạo 1 routes module tên app-routing.module.ts trong thư mục app
+import { RouterModule, Routes } from '@angular/router';
+
+import các component cần dùng để hiển thị
+import { MovieComponet } from './pages/baihai/movie.component';
+import { DashboardComponent } from "./pages/dashboard/dashboard.component";
+import { MovieDetailComponet } from "./pages/bai5movie-detail/moviedetail.component";
+import { Movie } from "./models/movie";
+
+// đường dẫn và component hiển thị
+const routes: Routes = [
+  {path:'movies',component:MovieComponet},
+  {path:'cham-cong',component:ChamCongComponent},
+  ];
+  
+forRoot khởi tạo đầu tiên
+và exports
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+
+trong app.component.html ..................
+thêm vào selector router các componentsẽ dc hiển thị ở đây thông qua đường dẫn routerLink
+<router-outlet></router-outlet>
+
+tạo đường dẫn bằng thuộc tính routerLink như thuộc tính link trong thẻ <a>
+<nav>
+  <a routerLink="/movies">Movies</a>
+  <a routerLink="/cham-cong">Chấm công</a>
+</nav>
+
+----------------------bài 12 ----------------------
+Dashboard và điều hướng route mặc định
+
+tạo component Dashboard ..................
+
+trong dashboard.component.ts..................
+import các component cần dùng để hiển thị
+import { Movie } from "../../models/movie";
+import { MovieService } from "../../movie.service";
+bài này ôn lại cách tạo component, import MovieService từ movie.service gọi hàm trong service sau đó cắt lấy dữ liệu trong 1 khoảng với hàm slice(a,b)
+sau đó vào routes module để gán đường dẫn chỉ đến dashboard component
+biến nó thành hiển thị mặc định
+trong app-routing.module.ts..................
+tạo đường dẫn hiển thị mặc định khi mới vào
+và đường dẫn theo routerLink
+{path:'', redirectTo:'/dashboard', pathMatch: 'full'},
+{path:'dashboard',component:DashboardComponent},
+
+----------------------bài 13 ----------------------
+chuyển qua lại 2 màn hình 
+Master-Detail components
+
+trong app-routing.module.ts..................
+{path:'detail/:id',component:MovieDetailComponet},
+căn cứ theo id để lấy thông tin liên quan trong Componet hiển thị
+
+trong dashboard.component.html..................
+ <a *ngFor="let movie of movies" routerLink="/detail/{{movie.id}}">
+ 
+trong dashboard.component.ts..................
+
+trong moviedetail.component.ts..................
+import ActivatedRoute là 1 biến có tính tồn tại duy nhất trong app "singleton", Location dùng để quay lại trang trước đó.
+import { ActivatedRoute } from "@angular/router";
+import { Location } from "@angular/common";
+
+trong constructor khai object có tính duy nhất "singleton" và có thể truy xuất ở bất kỳ đâu và cùng là 1 giá trị
+constructor(
+    private route: ActivatedRoute,
+    private movieService: MovieService,
+    private loaction:Location
+  ){}
+tạo hàm goBack()
+goBack():void {
+    this.loaction.back();
+}
+tạo hàm getMovieFromRoute()
+getMovieFromRoute(): void {
+    const id = +this.route.snapshot.paramMap.get('id')!; 
+	// dấu + là biến string thành number
+    this.movieService.getMovieFromId(id).subscribe(movie => this.movie = movie)
+  }
+  
+trong movie.service.ts..................
+quan sát Movie thay đổi thì chạy code bên trong.
+getMovieFromId(id: number): Observable <Movie> {
+   return of(fakeMovies.find (movie => movie.id === id)!);
+}
+ 
+trong bài này
+sử dụng 
+ActivatedRoute và Location để điều hướng
+
+phân tích nhanh:
+trong moviedetail.component.ts..................
+chạy hàm getMovieFromRoute() ta lấy dc giá trị id hiện tại từ movie.component.html
+từ movie.component.ts..................
+theo giá trị lọc theo giá trị id dc truyền vào moviedetail.component.ts lấy ra dữ liệu
+
+
+----------------------bài 14 ----------------------
+Sử dụng HTTP services để lấy dữ liệu từ GET request 
+***********************************************
+tạo server ảo trên localhot
+npm install -g json-server
+
+tạo file json
+	- touch db.json
+	- ls -la
+	
+dùng lệnh cat để kiểm tra file 
+cat db.json
+(file hiện trống)
+
+json-server --watch db.json
+******************
+vì máy cty ko cho cài đặt nên ko thực hiện dc công đoạn này 
+******************
+
+phương án thay thế sử dụng mock api online "mockapi.io"
+https://65e03377d3db23f7624895f6.mockapi.io/aaa/movies
+
+trong movie.service.ts..................
+import thêm HttpClient, HttpHeaders
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+
+catchError,map,tap sử lý dữ liệu khi dc gửi về
+import { catchError,map,tap } from 'rxjs/operators';
+
+tạo biến moviesURL gán đường dẫn API
+private moviesURL = 'https://65e03377d3db23f7624895f6.mockapi.io/aaa/movies';
+
+trong hàm bất đồng bộ getMovies() 
+ta lấy http khai báo trong constructor dùng hàm get().
+hàm .get<Movie[]> (this.moviesURL) gửi request đến link dc gán ở moviesURL và gán vào Movie[]
+
+trong hàm .pipe() trả về kết quả của các bước trước
+kết quả >>>> lấy dc giữu liệu vào hàm tab() ko thì vào catchError()
+.pipe(
+	 tap(),
+	 catchError()
+)
+
+full code
+getMovies(): Observable<Movie[]> {
+    return this.http.get<Movie[]> (this.moviesURL).pipe(
+      tap(receivedMovie => console.log(`receivedMovie = ${JSON.stringify(receivedMovie)}`)),
+      catchError(error=> of([]))
+    )
+  }
+
+trong constructor khai báo 1 http object toàn cục HttpClient thực hiện các truy vấn http Request 
+constructor(private http: HttpClient){}
+
+trong app.module.ts..................
+import {HttpClientModule } from '@angular/common/http';
+ imports: [
+    HttpClientModule,
+  ],
+  
+----------------------bài 15 ----------------------
+HTTP service và cập nhật dữ liệu với PUT request
+
+trong movie.service.ts..................
+ta ko sử dụng dữ liệu ảo nữa
+xóa import fakeMovies và những thứ liên quan
+
+thay bằng gửi get request để lấy ra nội dung
+const url =`${this.moviesURL}/${id}`;
+return this.http.get<Movie>(url).pipe(
+	tap(selectedMovie => console.log(`selected movie = ${JSON.stringify(selectedMovie)}`)),
+      catchError(error => of(new Movie()))
+)
+do sử dụng mock api online đến đây gặp lỗi ko lấy được dữ liệu theo id nên chỉ làm theo lý thuyết chưa test thực tế dc
+----------------------bài 16 ----------------------
+Thêm dữ liệu với POST request sử dụng http 
+  
+----------------------bài 17 ----------------------
+  
+  
+----------------------bài 18 ----------------------
+Gửi request tìm kiếm theo tên với AsyncPipe
+async luồng dữ liệu bất đồng bộ
+
+movies$: Observable<Movie[]>;
+//movies với $ là 1 opject list chạy trên 1 tiến trình riêng để ko ảnh hưởng đến mọi thứ khác vận hành
+
