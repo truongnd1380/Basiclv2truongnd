@@ -3,11 +3,11 @@ export class List {
   title: string;
   des:string;
   detail: string;
-  category: number;
-  public: boolean;
-  data_pubblic: Date;
-  position?:position[];
-  thumbs?: ImageData;
+  category?: number;
+  public?: boolean;
+  data_pubblic?: string;
+  position?:any;
+  thumbs?: string;
 }
 export class position {
   id: number;

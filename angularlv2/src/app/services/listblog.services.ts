@@ -9,6 +9,8 @@ const httpOptions = {
 @Injectable()
 export class ListBlogsServices {
   private listBlogURL = 'https://65e03377d3db23f7624895f6.mockapi.io/aaa/blog';
+  // private listBlogURL = 'http://localhost:3000/blogs';
+
   getListsBlog(): Observable<List[]> {
     return this.http.get<List[]>(this.listBlogURL).pipe(
       tap(receivedlistBlog => console.log(`receivedMovie = ${JSON.stringify(receivedlistBlog)}`)),
@@ -28,6 +30,8 @@ export class ListBlogsServices {
     if (!typedString.trim()) {
       return of([]);
     }
+    // name_like
+    // ?search
     return this.http.get<List[]>(`${this.listBlogURL}?search=${typedString}`).pipe(
       tap(
         foundedBlog => console.log(`founded Blog = ${JSON.stringify(foundedBlog)}`)
@@ -46,6 +50,12 @@ export class ListBlogsServices {
   }
   editList(list: List): Observable<any> {
     return this.http.put(`${this.listBlogURL}/${list.id}`, list, httpOptions).pipe(
+      catchError(error => of(new List()))
+    )
+  }
+  addBlog(newBlog: List):Observable<List>{
+    return this.http.post<List>(this.listBlogURL, newBlog, httpOptions).pipe(
+      tap((list:List) => console.log(`inserted newBlog = ${JSON.stringify(list)}`)),
       catchError(error => of(new List()))
     )
   }

@@ -1,19 +1,18 @@
 <div *ngIf="list" class="details">
   <h5>
-    <button type="button" class="btn btn-light btn-sm" (click)="goBack()">
+    Chi tiết
+  </h5>
+  <div>
+    <!-- <span>Thể loại:</span> -->
+    <button type="button" class="btn badge btn-primary btn-sm " (click)="goBack()">
       back
     </button>
-    Chi tiết
-    <small>
-      {{list.data_pubblic}}
-    </small>
-  </h5>
+    <span class="badge text-bg-success" *ngIf="this.list.category">{{Categories[this.list.category].label}}</span>
+    <span class="badge text-bg-light">{{list.data_pubblic}}</span>
+  </div>
   <h3>
     {{list.title}}
-    <small>
-      Thể loại
-      {{list.category}}
-    </small>
+
   </h3>
   <h5>
     {{list.des}}
