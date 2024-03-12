@@ -20,7 +20,7 @@ export class NewBlogComponent implements OnInit, OnChanges {
   PositionsA = Positions;
   PublicA = Public;
   newFormGroup = this.formBuilder.group({
-    title: ['', [Validators.required, Validators.minLength(4)]],
+    title: ['', [Validators.required, Validators.minLength(20)]],
     des: ['', []],
     detail: ['', []],
     thumbs: ['', []],
@@ -29,6 +29,9 @@ export class NewBlogComponent implements OnInit, OnChanges {
     public: ['', Validators.required],
     datepublic: ['2019-06-28', []],
   })
+  get title() {
+    return this.newFormGroup.get('title');
+  }
   get Positions() {
     return this.newFormGroup.get('Positions') as FormArray;
   }
