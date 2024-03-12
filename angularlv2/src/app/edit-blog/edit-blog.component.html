@@ -5,7 +5,9 @@
     <button type="button" class="btn btn-light btn-sm" (click)="goBack()">
       back
     </button>
-    Chỉnh sửa:
+    <span *ngIf="list ; else elseBlock">Chỉnh sửa:</span>
+    <ng-template #elseBlock>Thêm mới:</ng-template>
+
   </h5>
 
   <div class="form-group">

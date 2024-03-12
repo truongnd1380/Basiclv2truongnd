@@ -36,14 +36,12 @@ export class EditBlogComponent implements OnInit {
 
   getListFromRoute(): void {
     const id = +this.route.snapshot.paramMap.get('id')!;
-    // console.log(`this.route.snapshot.paramMap = ${JSON.stringify(this.route.snapshot.paramMap)}`);
     this.listBlogsServices.getListFromId(id).subscribe(
       list => {
         this.list = list;
         this.checkPublic();
       }
     )
-
   }
 
   checkValues(element: any) {
@@ -53,7 +51,7 @@ export class EditBlogComponent implements OnInit {
       return false
     }
   }
-  a:number;
+  a: number;
   checkPublic() {
     if (this.list.public == true) {
       this.a = 0;
@@ -61,14 +59,13 @@ export class EditBlogComponent implements OnInit {
       this.a = 1;
     }
   }
-  onRadioChange(opt:any) {
-    // console.log(`Value is: ${opt.target.value}`)
-    if(opt.target.value ==0){
+  onRadioChange(opt: any) {
+    if (opt.target.value == 0) {
       this.list.public = true
     } else {
       this.list.public = false
     }
-   }
+  }
 
   selectVitri(checkUncheck: any) {
     if (checkUncheck.target.checked) {
@@ -77,12 +74,12 @@ export class EditBlogComponent implements OnInit {
       this.list.position?.sort();
     } else {
       let i: number = 0;
-      this.list.position?.forEach((childObj: any)=> {
-        if(childObj == checkUncheck.target.value) {
+      this.list.position?.forEach((childObj: any) => {
+        if (childObj == checkUncheck.target.value) {
           this.list.position?.splice(i, 1);
         }
         i++;
-     });
+      });
     }
   }
   save(): void {

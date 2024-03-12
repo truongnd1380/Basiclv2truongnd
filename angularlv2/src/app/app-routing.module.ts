@@ -5,6 +5,7 @@ import { ListSearchComponent } from './list-search/list-search.component';
 import { ChitetComponent } from './chitet/chitet.component';
 import { EditBlogComponent } from './edit-blog/edit-blog.component';
 import { NewBlogComponent } from './new-blog/new-blog.component';
+import { EditBlog2Component } from './edit-blog2/edit-blog2.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,9 @@ const routes: Routes = [
   },
   {
     path: 'edit/:id', component: EditBlogComponent
+  },
+  {
+    path: 'edit2/:id', component: EditBlog2Component
   },
   {
     path: 'new', component: NewBlogComponent

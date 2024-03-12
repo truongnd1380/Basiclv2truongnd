@@ -12,6 +12,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th scope="col">STT</th>
           <th scope="col">ID</th>
           <th scope="col" style="width: 300px;">Tin</th>
           <th scope="col">Loại</th>
@@ -23,7 +24,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of Lists$ | async">
+        <tr *ngFor="let item of Lists$ | async; let i=index">
+          <td>
+            {{i+1}}
+          </td>
           <td>
             {{item.id}}
           </td>
@@ -46,7 +50,9 @@
           </td>
 
           <td>
-            Edit
+            <a routerLink="/edit2/{{item.id}}" style="text-decoration: none;">
+              Edit
+            </a>
           </td>
           <td>
             <button (click)="delete(item.id)">

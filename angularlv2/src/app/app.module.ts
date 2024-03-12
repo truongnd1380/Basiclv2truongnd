@@ -16,6 +16,7 @@ import { ChitetComponent } from './chitet/chitet.component';
 import { EditBlogComponent } from './edit-blog/edit-blog.component';
 import { NewBlogComponent } from './new-blog/new-blog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EditBlog2Component } from './edit-blog2/edit-blog2.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ListSearchComponent,
     ChitetComponent,
     EditBlogComponent,
-    NewBlogComponent
+    NewBlogComponent,
+    EditBlog2Component
   ],
   imports: [
     BrowserModule,
