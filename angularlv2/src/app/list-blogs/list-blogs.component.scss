@@ -1,0 +1,23 @@
+.badge {
+  margin-right: 5px;
+  min-width: 41%;
+  font-weight: normal;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+}
+.text-bg-light {
+  border: solid 1px #ccc;
+}
+.text-bg-secondary {
+  background-color: #ececec !important;
+  color: #444 !important;
+}
+
+th {
+  white-space: nowrap;
+}
+td {
+  vertical-align: middle;
+}

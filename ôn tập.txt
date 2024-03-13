@@ -420,3 +420,31 @@ async luồng dữ liệu bất đồng bộ
 movies$: Observable<Movie[]>;
 //movies với $ là 1 opject list chạy trên 1 tiến trình riêng để ko ảnh hưởng đến mọi thứ khác vận hành
 
+private searchedSupject = new Subject<string>();
+quản lý lưu trữ các giữ liệu đầu vào ví dụ gõ a, b,c >>> a, ab, abc
+
+next() 
+sử lý lên tục với các dữ liệu truyền vào ko bị ngắt quãng 
+
+distinctUntilChanged()
+kiểm tra dữ liệu nếu như nhau thì không lấy dữ liệu để thực thi nữa
+
+switchMap()
+Thực hiện công việc 
+
+tạo nhiều version nodejs....................
+xem list nodejs version
+nvm ls
+sử dụng nodejs version trong list
+nvm use tên nodejs version
+
+
+npm start
+npm run ng g c user-detail
+npm run ng g c pages/test3
+
+ng new my-app --no-standalone
+C:\Users\Truongnd\Desktop\hoc\my-app
+              "node_modules/eva-icons/eva.min.js"
+
+

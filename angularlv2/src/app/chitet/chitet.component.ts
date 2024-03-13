@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { List,Categories } from '../../models/listblog';
+import { List, Categories, Positions, Public, position } from '../../models/listblog';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from "@angular/common";
 import { ListBlogsServices } from '../services/listblog.services';
+
 @Component({
   selector: 'app-chitet',
   templateUrl: './chitet.component.html',
@@ -11,6 +12,8 @@ import { ListBlogsServices } from '../services/listblog.services';
 export class ChitetComponent implements OnInit {
   @Input () list: List;
   Categories=Categories;
+  Positions =Positions;
+  Public = Public;
   constructor(
     private route: ActivatedRoute,
     private listBlogsServices: ListBlogsServices,

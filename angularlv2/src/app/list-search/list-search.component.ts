@@ -3,7 +3,8 @@ import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 
 import { ListBlogsServices } from '../services/listblog.services';
-import { List } from '../../models/listblog';
+import { List, Categories, Positions, Public, position } from '../../models/listblog';
+
 import { tap } from "node:test/reporters";
 
 @Component({
@@ -13,6 +14,9 @@ import { tap } from "node:test/reporters";
 })
 export class ListSearchComponent implements OnInit {
   Lists$: Observable<List[]>;
+  Categories=Categories;
+  Positions =Positions;
+  Public = Public;
   // lists: string = '';
   private searchedSupject = new Subject<string>();
 
@@ -20,7 +24,7 @@ export class ListSearchComponent implements OnInit {
 
   }
   search(searchedString:string):void {
-    console.log(`searchedString = ${searchedString}`);
+    // console.log(`searchedString = ${searchedString}`);
     this.searchedSupject.next(searchedString);
     // this.lists = searchedString;
   }

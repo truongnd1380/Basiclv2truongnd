@@ -24,7 +24,6 @@ export class ListBlogsServices {
       tap(selectedList => console.log(`selected List = ${JSON.stringify(selectedList)}`)),
       catchError(error => of(new List()))
     )
-
   }
   searchLists(typedString: string): Observable<List[]> {
     if (!typedString.trim()) {
@@ -32,6 +31,9 @@ export class ListBlogsServices {
     }
     // name_like
     // ?search
+    if(typedString == 'all'){
+      typedString = ''
+    }
     return this.http.get<List[]>(`${this.listBlogURL}?search=${typedString}`).pipe(
       tap(
         foundedBlog => console.log(`founded Blog = ${JSON.stringify(foundedBlog)}`)

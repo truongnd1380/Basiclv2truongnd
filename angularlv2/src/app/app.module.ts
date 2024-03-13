@@ -17,7 +17,7 @@ import { EditBlogComponent } from './edit-blog/edit-blog.component';
 import { NewBlogComponent } from './new-blog/new-blog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditBlog2Component } from './edit-blog2/edit-blog2.component';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +39,7 @@ import { EditBlog2Component } from './edit-blog2/edit-blog2.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxPaginationModule
   ],
   providers: [
     provideClientHydration(),

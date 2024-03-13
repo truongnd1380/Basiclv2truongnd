@@ -18,9 +18,7 @@
         </tr>
       </thead>
       <tbody>
-
-
-        <tr *ngFor="let item of lists;let i=index">
+        <tr *ngFor="let item of lists | paginate: { itemsPerPage: 10, currentPage: page };index as i">
           <td>
             {{i+1}}
           </td>
@@ -33,30 +31,42 @@
             </a>
           </td>
           <td>
-            {{item.category}}
+            <span class="badge rounded-pill text-bg-secondary">{{Categories[item.category!].label}}</span>
+            <!-- {{item.category}} -->
           </td>
           <td>
-            {{item.public}}
+            <!-- {{item.public}} -->
+            <span class="badge rounded-pill text-bg-success" *ngIf="item.public == true; else elseBlock">
+              {{Public[0].label}}
+            </span>
+            <ng-template #elseBlock>
+              <span class="badge rounded-pill text-bg-danger">{{Public[1].label}}</span>
+            </ng-template>
           </td>
           <td>
-            {{item.position}}
+            <span *ngFor="let item of item.position" class="badge rounded-pill text-bg-light">
+              <!-- {{item}} -->
+              {{Positions[item].label}}
+            </span>
           </td>
           <td>
             {{item.data_pubblic}}
           </td>
 
           <td>
-            <a routerLink="/edit2/{{item.id}}" style="text-decoration: none;">
+            <a routerLink="/edit2/{{item.id}}" style="text-decoration: none;" class="btn btn-outline-primary btn-sm">
               Edit
             </a>
           </td>
           <td>
-              <button (click)="delete(item.id)">
-                Delete
-              </button>
+            <button (click)="delete(item.id)" class="btn btn-outline-danger btn-sm">
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
+    <!-- (pageChange)="page = $event" -->
+    <pagination-controls previousLabel="Trang trước" nextLabel="Trang sau" (pageChange)="page = $event" class="float-right"></pagination-controls>
   </div>
 </div>

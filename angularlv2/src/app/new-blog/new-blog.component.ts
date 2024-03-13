@@ -14,35 +14,57 @@ const httpOptions = {
   styleUrl: './new-blog.component.scss'
 })
 export class NewBlogComponent implements OnInit, OnChanges {
+[x: string]: any;
   @Input() list: List;
-  newList: List[];
+  // newList: List[];
+
   CategoriesA = Categories;
   PositionsA = Positions;
   PublicA = Public;
+  defaultpositions = ["Việt Nam", "Châu Á"];
+  defaultpositionsRadio =['Yes'];
+
   newFormGroup = this.formBuilder.group({
     title: ['', [Validators.required, Validators.minLength(20)]],
     des: ['', []],
     detail: ['', []],
     thumbs: ['', []],
     Categories: [0, []],
-    Positions: this.formBuilder.array([]),
-    public: ['', Validators.required],
+    // positions: this.formBuilder.array([]),
+    positions: this.formBuilder.array(this.PositionsA.map(x => this.defaultpositions.indexOf(x.label) > -1)),
+    public: [true, [] ],
+    // public: this.formBuilder.array(this.PublicA.map(y => this.defaultpositionsRadio.indexOf(y.label) > -1)),
     datepublic: ['2019-06-28', []],
   })
+  get Public() {
+    return this.newFormGroup.get('public');
+  }
+  get Categories() {
+    return this.newFormGroup.get('Categories');
+  }
   get title() {
     return this.newFormGroup.get('title');
   }
   get Positions() {
-    return this.newFormGroup.get('Positions') as FormArray;
+    return this.newFormGroup.get('positions') as FormArray;
+
   }
-  addAlias() {
-    for (let index = 0; index < this.PositionsA.length; index++) {
-      this.Positions.push(this.formBuilder.control(false));
-    };
-  }
+
+  // addAlias() {
+  //   for (let index = 0; index < this.PositionsA.length; index++) {
+  //     if(index == 0){
+  //       this.Positions.push(this.formBuilder.control(true));
+  //     } else{
+  //       this.Positions.push(this.formBuilder.control(false));
+  //     }
+
+  //   };
+  // }
   test() {
     console.warn(this.newFormGroup.value.public);
+
     const newList: List = new List();
+
     newList.title = this.newFormGroup.value.title!;
     newList.des = this.newFormGroup.value.des!;
     newList.detail = this.newFormGroup.value.detail!;
@@ -62,6 +84,12 @@ export class NewBlogComponent implements OnInit, OnChanges {
     newList.data_pubblic = this.newFormGroup.value.datepublic!;
     this.listBlogsServices.addBlog(newList).subscribe()
   }
+  goBack(): void {
+    this.loaction.back();
+  }
+  onSubmit():void{
+    this.test()
+  }
   constructor(
     private route: ActivatedRoute,
     private listBlogsServices: ListBlogsServices,
@@ -69,7 +97,8 @@ export class NewBlogComponent implements OnInit, OnChanges {
     private formBuilder: FormBuilder = new FormBuilder,
   ) { }
   ngOnInit() {
-    this.addAlias();
+    // this.addAlias();
+    // this.addPublic();
   }
   ngOnChanges(changes: SimpleChanges): void {
   }

@@ -27,7 +27,6 @@ export class EditBlog2Component implements OnInit, OnChanges {
     this.listBlogsServices.getListFromId(id).subscribe(
       list => {
         this.list = list;
-
         this.newFormGroup = this.formBuilder.group({
           title: [this.list.title, []],
           des: [this.list.des, []],
@@ -66,7 +65,7 @@ export class EditBlog2Component implements OnInit, OnChanges {
   }
 
   test() {
-    console.warn(this.newFormGroup.value.public);
+    // console.warn(this.newFormGroup.value.public);
     this.list.title = this.newFormGroup.value.title!;
     this.list.des = this.newFormGroup.value.des!;
     this.list.detail = this.newFormGroup.value.detail!;
@@ -84,6 +83,7 @@ export class EditBlog2Component implements OnInit, OnChanges {
       this.list.public = false;
     }
     this.list.data_pubblic = this.newFormGroup.value.datepublic!;
+
     this.listBlogsServices.editList(this.list).subscribe(() => this.goBack())
   }
   goBack(): void {
